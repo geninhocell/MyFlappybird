@@ -5,7 +5,7 @@ using UnityEngine;
 public class Carrossel : MonoBehaviour
 {
     [SerializeField]
-    private float velocidade = 2;
+    private VariavelCompartilhadaFloat velocidade;
     private Vector3 posicaoInicial;
     private float tamanhoRealDaImagem;
 
@@ -20,7 +20,7 @@ public class Carrossel : MonoBehaviour
 
     void Update()
     {
-        float deslocamento = Mathf.Repeat(this.velocidade * Time.time, this.tamanhoRealDaImagem);
+        float deslocamento = Mathf.Repeat(this.velocidade.Valor * Time.time, this.tamanhoRealDaImagem);
         this.transform.position = this.posicaoInicial  + (Vector3.left * deslocamento);
     }
 }

@@ -10,11 +10,13 @@ public class ControlaAviao : MonoBehaviour
     private float forca;
     private Diretor diretor;
     private Vector3 posicaoInicial;
-
+    private bool deveImpulsionar;
+    private Animator animacao;
     private void Awake()
     {
         this.fisica = GetComponent<Rigidbody2D>();
         this.posicaoInicial = this.transform.position;
+        animacao = GetComponent<Animator>();
     }
 
     private void Start()
@@ -26,10 +28,19 @@ public class ControlaAviao : MonoBehaviour
         if (Input.GetButtonDown(Tags.Fire1))
         {
             //Debug.Log("Clicou");
+            this.deveImpulsionar = true;
+        }
+        animacao.SetFloat(Tags.VelocidadeY, fisica.velocity.y);
+    }
+
+    private void FixedUpdate()
+    {
+        if (deveImpulsionar)
+        {
+            this.deveImpulsionar = false;
             this.Impulsionar();
         }
     }
-
     public void Reiniciar()
     {
         this.transform.position = this.posicaoInicial;

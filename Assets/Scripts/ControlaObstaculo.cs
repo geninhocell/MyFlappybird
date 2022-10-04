@@ -5,7 +5,7 @@ using UnityEngine;
 public class ControlaObstaculo : MonoBehaviour
 {
     [SerializeField]
-    private float velocidade = 0.1f;
+    private VariavelCompartilhadaFloat velocidade;
     [SerializeField]
     private float variacaoDaPosicaoY;
     private Vector3 posicaoDoAviao;
@@ -24,7 +24,7 @@ public class ControlaObstaculo : MonoBehaviour
     }
     private void Update()
     {
-        this.transform.Translate(Vector3.left * this.velocidade * Time.deltaTime);
+        this.transform.Translate(Vector3.left * this.velocidade.Valor * Time.deltaTime);
         if(!this.pontuei && this.transform.position.x < this.posicaoDoAviao.x)
         {
             this.pontuei = true;

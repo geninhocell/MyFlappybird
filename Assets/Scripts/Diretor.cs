@@ -5,25 +5,26 @@ using UnityEngine;
 
 public class Diretor : MonoBehaviour
 {
-    [SerializeField]
-    public GameObject fundoGameOver;
     private ControlaAviao controlaAviao;
     private Pontuacao pontuacao;
+    private InterfaceGameOver interfaceGameOver;
 
     private void Start()
     {
         this.controlaAviao = GameObject.FindObjectOfType<ControlaAviao>();
         this.pontuacao = GameObject.FindObjectOfType<Pontuacao>();
+        this.interfaceGameOver = GameObject.FindObjectOfType<InterfaceGameOver>();
     }
     public void FinalizarJogo()
     {
         Time.timeScale = 0f;
-        this.fundoGameOver.SetActive(true);
+        this.pontuacao.SalvarRecorde();
+        this.interfaceGameOver.MostrarInterface();
     }
 
     public void ReiniciarJogo()
     {
-        this.fundoGameOver.SetActive(false);
+        this.interfaceGameOver.EsconderInterface();
         Time.timeScale = 1f;
         this.controlaAviao.Reiniciar();
         this.DestruirObstaculos();
@@ -38,4 +39,6 @@ public class Diretor : MonoBehaviour
             obstaculo.Destruir();
         }
     }
+
+   
 }
