@@ -2,13 +2,17 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class ControlaAviao : MonoBehaviour
 {
     private Rigidbody2D fisica;
     [SerializeField]
     private float forca;
-    private Diretor diretor;
+    [SerializeField]
+    private UnityEvent aoBater;
+    [SerializeField]
+    private UnityEvent aoPassarPeloObstaculo;
     private Vector3 posicaoInicial;
     private bool deveImpulsionar;
     private Animator animacao;
@@ -19,17 +23,8 @@ public class ControlaAviao : MonoBehaviour
         animacao = GetComponent<Animator>();
     }
 
-    private void Start()
-    {
-        this.diretor = GameObject.FindObjectOfType<Diretor>();
-    }
     private void Update()
     {
-        if (Input.GetButtonDown(Tags.Fire1))
-        {
-            //Debug.Log("Clicou");
-            this.deveImpulsionar = true;
-        }
         animacao.SetFloat(Tags.VelocidadeY, fisica.velocity.y);
     }
 
@@ -56,6 +51,16 @@ public class ControlaAviao : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         this.fisica.simulated = false;
-        this.diretor.FinalizarJogo();
+        aoBater.Invoke();
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        aoPassarPeloObstaculo.Invoke();
+    }
+
+    public void DarImpulso()
+    {
+        deveImpulsionar = true;
     }
 }

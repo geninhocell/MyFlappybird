@@ -1,38 +1,42 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class Pontuacao : MonoBehaviour
 {
     [SerializeField]
     private Text textoPontuacao;
+    [SerializeField]
+    private UnityEvent aoPontuar;
     public int Pontos { get; private set; }
     private AudioSource audioPontuacao;
 
     private void Awake()
     {
-        this.audioPontuacao = this.GetComponent<AudioSource>();
+        audioPontuacao = GetComponent<AudioSource>();
     }
     public void AdicionarPontos()
     {
-        this.Pontos++;
-        this.textoPontuacao.text = this.Pontos.ToString();
-        this.audioPontuacao.Play();
+        Pontos++;
+        textoPontuacao.text = Pontos.ToString();
+        audioPontuacao.Play();
+        aoPontuar.Invoke();
     }
 
     public void Reiniciar()
     {
-        this.Pontos = 0;
-        this.textoPontuacao.text = this.Pontos.ToString();
+        Pontos = 0;
+        textoPontuacao.text = Pontos.ToString();
     }
 
     public void SalvarRecorde()
     {
         int recorde = PlayerPrefs.GetInt(Tags.Recorde);
-        if (recorde < this.Pontos)
+        if (recorde < Pontos)
         {
-            PlayerPrefs.SetInt(Tags.Recorde, this.Pontos);
+            PlayerPrefs.SetInt(Tags.Recorde, Pontos);
         }
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,23 +13,38 @@ public class GeradorDeObstaculos : MonoBehaviour
     private GameObject manualDeInstrucoes;
     private float cronometro;
     private ControleDeDificuldade dificuldade;
+    private bool parado;
+
+    public void Parar()
+    {
+        parado = true;
+    }
+
+    public void Recomecar()
+    {
+        parado = false;
+    }
 
     private void Awake()
     {
-        this.cronometro = this.tempoParaGerarFacil;
+        cronometro = tempoParaGerarFacil;
     }
 
     private void Start()
     {
         dificuldade = GameObject.FindObjectOfType<ControleDeDificuldade>();
     }
-    void Update()
+    private void Update()
     {
-        this.cronometro -= Time.deltaTime;
-        if(this.cronometro <= 0)
+        if (parado)
         {
-            GameObject.Instantiate(this.manualDeInstrucoes, this.transform.position, Quaternion.identity);
-            this.cronometro = Mathf.Lerp(tempoParaGerarFacil, tempoParaGerarDificil, dificuldade.Dificuldade);
+            return;
+        }
+        cronometro -= Time.deltaTime;
+        if(cronometro <= 0)
+        {
+            GameObject.Instantiate(manualDeInstrucoes, transform.position, Quaternion.identity);
+            cronometro = Mathf.Lerp(tempoParaGerarFacil, tempoParaGerarDificil, dificuldade.Dificuldade);
         }
     }
 }
